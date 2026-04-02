@@ -1,0 +1,65 @@
+{% extends "ventures/venture_base.html" %}
+{% set hero_image = "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=1600&q=90" %}
+{% set region = "Upper West & Volta Region" %}
+{% set title = "Gold" %}
+{% set subtitle = "Mining Operations" %}
+{% set description = "Ghana is Africa's largest gold producer. Our licensed operations hold valid permits." %}
+{% set overview_title = "About Our Gold Operations" %}
+{% set overview_paragraphs = [
+  "Ghana has been producing gold for centuries and remains Africa's leading producer. Our small-scale mining operations are fully licensed under the Minerals Commission of Ghana and operate in designated concession areas in the Upper West and Volta regions.",
+  "All gold produced is assayed and sold through licensed gold dealers registered with the Precious Minerals Marketing Company (PMMC). Partners receive production reports, assay certificates, and regular photo and video documentation from active sites."
+] %}
+{% set facts = [
+  {"label": "Location", "value": "Upper West & Volta Region"},
+  {"label": "Operation Type", "value": "Licensed Small-Scale Mining"},
+  {"label": "Regulator", "value": "Minerals Commission of Ghana"},
+  {"label": "Sales Channel", "value": "PMMC Licensed Dealers"},
+  {"label": "License Status", "value": "Valid & Current"},
+  {"label": "Documentation", "value": "Assay Certificates Provided"}
+] %}
+{% set tiers = [
+  {
+    "name": "Starter",
+    "price": "$10,000",
+    "price_note": "entry",
+    "desc": "Participate in our licensed gold operations with full documentation and quarterly reports.",
+    "featured": false,
+    "features": [
+      "Signed partnership agreement",
+      "Quarterly production reports",
+      "Site photo documentation",
+      "WhatsApp site updates",
+      "Copy of operating license"
+    ]
+  },
+  {
+    "name": "Growth",
+    "price": "$50,000",
+    "price_note": "entry",
+    "desc": "A larger participation stake with assay certificate access and site visit eligibility.",
+    "featured": true,
+    "features": [
+      "Everything in Starter",
+      "Monthly production reports",
+      "Assay certificate copies",
+      "Site visit eligibility",
+      "Dedicated WhatsApp contact",
+      "Video documentation from site"
+    ]
+  },
+  {
+    "name": "Premium",
+    "price": "$50,000",
+    "price_note": "entry",
+    "desc": "Major participation with full legal documentation, PMMC records access, and annual site visit.",
+    "featured": false,
+    "features": [
+      "Everything in Growth",
+      "Named in concession records",
+      "Annual site visit arranged",
+      "Legal agreement with lawyer review",
+      "PMMC sales receipt copies",
+      "Priority quarterly briefings"
+    ]
+  }
+] %}

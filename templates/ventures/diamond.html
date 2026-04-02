@@ -1,0 +1,65 @@
+{% extends "ventures/venture_base.html" %}
+{% set hero_image = "https://images.unsplash.com/photo-1615486511484-92e172cc4fe0?w=1600&q=90" %}
+{% set region = "Birim River Basin" %}
+{% set title = "Diamond" %}
+{% set subtitle = "Sourcing Operations" %}
+{% set description = "Ghana's Birim River Basin is one of West Africa's most productive alluvial diamond regions." %}
+{% set overview_title = "About Our Diamond Operations" %}
+{% set overview_paragraphs = [
+  "The Birim River Basin in Ghana's Eastern Region has been a significant source of alluvial diamonds since the 1920s. Our sourcing operations work with licensed artisanal miners in designated concession areas under full regulatory compliance.",
+  "All diamonds sourced through our operations are certified under the Kimberley Process Certification Scheme (KPCS), which ensures they are conflict-free and legally traded. Partners receive KPCS certificates, production logs, and regular documentation from active sourcing sites."
+] %}
+{% set facts = [
+  {"label": "Location", "value": "Birim River Basin, Eastern Region"},
+  {"label": "Operation Type", "value": "Alluvial Diamond Sourcing"},
+  {"label": "Certification", "value": "Kimberley Process (KPCS)"},
+  {"label": "Regulator", "value": "Minerals Commission of Ghana"},
+  {"label": "Diamond Type", "value": "Alluvial / Gem Quality"},
+  {"label": "Documentation", "value": "KPCS Certificates Provided"}
+] %}
+{% set tiers = [
+  {
+    "name": "Starter",
+    "price": "$4,000",
+    "price_note": "entry",
+    "desc": "Participate in certified diamond sourcing with full Kimberley Process documentation.",
+    "featured": false,
+    "features": [
+      "Signed partnership agreement",
+      "Quarterly sourcing reports",
+      "Kimberley Process certificate copies",
+      "Site photo documentation",
+      "WhatsApp sourcing updates"
+    ]
+  },
+  {
+    "name": "Growth",
+    "price": "$10,000",
+    "price_note": "entry",
+    "desc": "Larger participation with production log access, site visits, and dedicated reporting.",
+    "featured": true,
+    "features": [
+      "Everything in Starter",
+      "Monthly production logs",
+      "Individual stone documentation",
+      "Site visit eligibility",
+      "Dedicated WhatsApp contact",
+      "Video from active sourcing sites"
+    ]
+  },
+  {
+    "name": "Premium",
+    "price": "$30,000",
+    "price_note": "entry",
+    "desc": "Major stake with full legal documentation, named participation, and annual site visit.",
+    "featured": false,
+    "features": [
+      "Everything in Growth",
+      "Named in sourcing concession",
+      "Annual site visit arranged",
+      "Legal agreement with lawyer review",
+      "Full KPCS export documentation",
+      "Priority quarterly briefings"
+    ]
+  }
+] %}

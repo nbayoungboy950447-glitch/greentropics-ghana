@@ -1,0 +1,65 @@
+{% extends "ventures/venture_base.html" %}
+{% set hero_image = "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=1600&q=90" %}
+{% set region = "Eastern & Volta Region" %}
+{% set title = "Fruit" %}
+{% set subtitle = "Farming Partnership" %}
+{% set description = "Pineapple, mango, and citrus from Ghana's Eastern region are in growing global demand." %}
+{% set overview_title = "About Our Fruit Farming Operations" %}
+{% set overview_paragraphs = [
+  "Ghana's Eastern and Volta regions produce some of West Africa's finest tropical fruits. Our farms cultivate pineapple (MD2 and Smooth Cayenne varieties), mango, and citrus for both local markets and international export through Tema Port.",
+  "All produce is graded and packed to international export standards. Partners receive harvest reports, grade certificates, and regular farm documentation. Our proximity to Tema Port allows efficient export logistics to European and North American buyers."
+] %}
+{% set facts = [
+  {"label": "Location", "value": "Eastern & Volta Region"},
+  {"label": "Crops", "value": "Pineapple, Mango, Citrus"},
+  {"label": "Export Port", "value": "Tema Port, Ghana"},
+  {"label": "Harvest Cycle", "value": "Year-round"},
+  {"label": "Standards", "value": "International Export Grade"},
+  {"label": "Markets", "value": "Europe & North America"}
+] %}
+{% set tiers = [
+  {
+    "name": "Starter",
+    "price": "$1,500",
+    "price_note": "entry",
+    "desc": "Own a share of our tropical fruit farm with regular harvest and export documentation.",
+    "featured": false,
+    "features": [
+      "Signed partnership agreement",
+      "Quarterly harvest reports",
+      "Grade certificate copies",
+      "Farm photo updates",
+      "1 acre share allocation"
+    ]
+  },
+  {
+    "name": "Growth",
+    "price": "$4,500",
+    "price_note": "entry",
+    "desc": "Larger farm stake with export documentation access and site visit eligibility.",
+    "featured": true,
+    "features": [
+      "Everything in Starter",
+      "4 acre share allocation",
+      "Export documentation copies",
+      "Site visit eligibility",
+      "Dedicated WhatsApp contact",
+      "Quarterly video updates"
+    ]
+  },
+  {
+    "name": "Premium",
+    "price": "$14,000",
+    "price_note": "entry",
+    "desc": "Full farm block with named documentation, legal review, and annual site visit.",
+    "featured": false,
+    "features": [
+      "Everything in Growth",
+      "12 acre block allocation",
+      "Named on lease records",
+      "Annual site visit arranged",
+      "Legal agreement with lawyer review",
+      "Direct buyer introduction"
+    ]
+  }
+] %}

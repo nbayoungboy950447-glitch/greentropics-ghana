@@ -1,0 +1,65 @@
+{% extends "ventures/venture_base.html" %}
+{% set hero_image = "https://images.unsplash.com/photo-1448375240586-882707db888b?w=1600&q=90" %}
+{% set region = "Brong-Ahafo Region" %}
+{% set title = "Teak" %}
+{% set subtitle = "Plantation Ownership" %}
+{% set description = "Own a teak plantation in Ghana. Teak is among the world's most sought-after hardwoods." %}
+{% set overview_title = "About Our Teak Plantations" %}
+{% set overview_paragraphs = [
+  "Teak (Tectona grandis) is one of the most commercially valuable tropical hardwoods in the world, prized for its durability, beauty, and resistance to rot. Ghana's climate in the Brong-Ahafo region is ideal for high-quality teak cultivation.",
+  "Our plantations are established on properly titled land with GPS-mapped boundaries. Each partner's allocation is physically marked and documented. Teak is a long-term investment — trees mature over 15-25 years, with thinning operations providing interim yields from year 5 onwards."
+] %}
+{% set facts = [
+  {"label": "Location", "value": "Brong-Ahafo Region"},
+  {"label": "Species", "value": "Tectona Grandis (Teak)"},
+  {"label": "Maturity Period", "value": "15-25 years"},
+  {"label": "Interim Yields", "value": "From Year 5 (thinning)"},
+  {"label": "Land Status", "value": "GPS Mapped & Titled"},
+  {"label": "Market", "value": "Global Hardwood Export"}
+] %}
+{% set tiers = [
+  {
+    "name": "Starter",
+    "price": "$1,500",
+    "price_note": "entry",
+    "desc": "Own a documented plot of teak plantation with annual growth reports and photo updates.",
+    "featured": false,
+    "features": [
+      "Signed partnership agreement",
+      "Annual growth reports",
+      "GPS plot documentation",
+      "Farm photo updates",
+      "0.5 acre teak allocation"
+    ]
+  },
+  {
+    "name": "Growth",
+    "price": "$4,000",
+    "price_note": "entry",
+    "desc": "A larger teak plot with site visit eligibility and interim thinning yield participation.",
+    "featured": true,
+    "features": [
+      "Everything in Starter",
+      "2 acre teak allocation",
+      "Thinning yield participation (yr 5+)",
+      "Site visit eligibility",
+      "Dedicated WhatsApp contact",
+      "Bi-annual video updates"
+    ]
+  },
+  {
+    "name": "Premium",
+    "price": "$12,000",
+    "price_note": "entry",
+    "desc": "Full teak block with maximum documentation, named on title, and annual site visit.",
+    "featured": false,
+    "features": [
+      "Everything in Growth",
+      "8 acre teak block",
+      "Named on land lease records",
+      "Annual site visit arranged",
+      "Legal agreement with lawyer review",
+      "Full harvest rights at maturity"
+    ]
+  }
+] %}

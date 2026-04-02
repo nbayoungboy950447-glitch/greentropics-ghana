@@ -1,0 +1,65 @@
+{% extends "ventures/venture_base.html" %}
+{% set hero_image = "https://images.unsplash.com/photo-1611735341450-74d61e660ad2?w=1600&q=90" %}
+{% set region = "Ashanti & Brong-Ahafo Region" %}
+{% set title = "Cocoa" %}
+{% set subtitle = "Plantation Ownership" %}
+{% set description = "Ghana is the world's second-largest cocoa producer." %}
+{% set overview_title = "About Our Cocoa Operations" %}
+{% set overview_paragraphs = [
+  "Ghana's cocoa belt stretches across the Ashanti and Brong-Ahafo regions, producing some of the finest quality cocoa beans in the world. Our plantations are established on properly titled land with full canopy coverage and managed by experienced local farmers.",
+  "Partners receive regular harvest reports, weight certificates, and photo documentation from the farm. All cocoa is sold through licensed buying companies registered with the Ghana Cocoa Board (COCOBOD)."
+] %}
+{% set facts = [
+  {"label": "Location", "value": "Ashanti & Brong-Ahafo"},
+  {"label": "Crop Type", "value": "Theobroma Cacao"},
+  {"label": "Harvest Cycles", "value": "Twice per year"},
+  {"label": "Regulatory Body", "value": "Ghana COCOBOD"},
+  {"label": "Land Status", "value": "Titled & Documented"},
+  {"label": "Export Channel", "value": "Licensed Buying Companies"}
+] %}
+{% set tiers = [
+  {
+    "name": "Starter",
+    "price": "$2,000",
+    "price_note": "entry",
+    "desc": "Own a share of our cocoa farm with full documentation and bi-annual harvest reports.",
+    "featured": false,
+    "features": [
+      "Signed partnership agreement",
+      "Bi-annual harvest reports",
+      "Farm photo updates",
+      "WhatsApp updates from site",
+      "1 acre share allocation"
+    ]
+  },
+  {
+    "name": "Growth",
+    "price": "$5,000",
+    "price_note": "entry",
+    "desc": "A larger stake with priority updates, site visit eligibility, and dedicated account contact.",
+    "featured": true,
+    "features": [
+      "Everything in Starter",
+      "3 acre share allocation",
+      "Quarterly video updates",
+      "Site visit eligibility",
+      "Dedicated WhatsApp contact",
+      "Priority prospectus updates"
+    ]
+  },
+  {
+    "name": "Premium",
+    "price": "$15,000",
+    "price_note": "entry",
+    "desc": "Full farm block ownership with maximum documentation, legal support, and annual site visit.",
+    "featured": false,
+    "features": [
+      "Everything in Growth",
+      "10 acre block allocation",
+      "Annual site visit arranged",
+      "Legal agreement with lawyer review",
+      "Export documentation access",
+      "Named on land lease records"
+    ]
+  }
+] %}

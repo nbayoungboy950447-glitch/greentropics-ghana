@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block extra_css %}
+<style>
+  .venture-hero {
+    min-height: 60vh;
+    background: linear-gradient(180deg, rgba(15,31,15,0.75) 0%, rgba(15,31,15,0.6) 50%, rgba(15,31,15,0.85) 100%),
+    url('{{ hero_image }}') center/cover no-repeat;
+    display: flex; align-items: center; padding: 0 5rem;
+    position: relative;
+  }
+  .venture-hero-content { padding-top: 6rem; max-width: 700px; }
+  .venture-eyebrow { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: #D4A017; display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.5rem; }
+  .venture-eyebrow::before, .venture-eyebrow::after { content: ''; display: block; width: 28px; height: 1px; background: #B8860B; }
+  .venture-hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 5vw, 5rem); font-weight: 600; color: #F7F0E0; line-height: 1.05; margin-bottom: 1.2rem; }
+  .venture-hero h1 em { color: #F0D060; font-style: italic; }
+  .venture-hero p { font-size: 1rem; font-weight: 300; line-height: 1.85; color: rgba(247,240,224,0.75); max-width: 560px; }
+
+  /* GALLERY */
+  .gallery-section { padding: 5rem; background: #F7F0E0; }
+  .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; }
+  .gallery-grid img { width: 100%; height: 220px; object-fit: cover; border-radius: 2px; transition: transform 0.4s; cursor: pointer; }
+  .gallery-grid img:hover { transform: scale(1.02); }
+  .gallery-empty { grid-column: 1/-1; text-align: center; padding: 3rem; color: #6A6A50; font-size: 0.9rem; background: #EDE0C4; border-radius: 2px; }
+
+  /* OVERVIEW */
+  .overview-section { padding: 5rem; background: #FDFBF6; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .overview-title { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 600; color: #0F1F0F; margin-bottom: 1.2rem; }
+  .overview-text { font-size: 0.92rem; line-height: 1.85; color: #6A6A50; margin-bottom: 1.5rem; }
+  .overview-facts { display: flex; flex-direction: column; gap: 0; }
+  .overview-fact { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid #EDE0C4; font-size: 0.85rem; }
+  .overview-fact-label { color: #6A6A50; font-weight: 500; }
+  .overview-fact-value { color: #0F1F0F; font-weight: 600; }
+
+  /* TIERS */
+  .tiers-section { padding: 5rem; background: #0F1F0F; }
+  .tiers-title { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 600; color: #F7F0E0; margin-bottom: 0.5rem; }
+  .tiers-sub { font-size: 0.92rem; color: rgba(247,240,224,0.5); margin-bottom: 3rem; }
+  .tiers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .tier-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(184,134,11,0.2); border-radius: 2px; padding: 2.5rem 2rem; transition: all 0.3s; position: relative; overflow: hidden; }
+  .tier-card:hover { border-color: rgba(184,134,11,0.5); background: rgba(184,134,11,0.06); }
+  .tier-card.featured { border-color: #B8860B; background: rgba(184,134,11,0.08); }
+  .tier-card.featured::before { content: 'MOST POPULAR'; position: absolute; top: 1rem; right: 1rem; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em; color: #F0D060; background: rgba(184,134,11,0.2); padding: 0.3rem 0.6rem; border-radius: 1px; }
+  .tier-name { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #B8860B; margin-bottom: 1rem; }
+  .tier-price { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 700; color: #F0D060; line-height: 1; margin-bottom: 0.3rem; }
+  .tier-price span { font-size: 1rem; font-weight: 400; color: rgba(247,240,224,0.4); }
+  .tier-desc { font-size: 0.82rem; color: rgba(247,240,224,0.5); margin-bottom: 1.8rem; line-height: 1.6; }
+  .tier-features { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2rem; }
+  .tier-features li { font-size: 0.84rem; color: rgba(247,240,224,0.7); display: flex; align-items: flex-start; gap: 0.7rem; line-height: 1.5; }
+  .tier-features li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #B8860B; flex-shrink: 0; margin-top: 0.45rem; }
+  .tier-btn { display: block; width: 100%; padding: 0.9rem; text-align: center; background: #B8860B; color: #0F1F0F; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; border-radius: 1px; transition: all 0.3s; }
+  .tier-btn:hover { background: #D4A017; }
+  .tier-btn.outline { background: transparent; border: 1px solid rgba(184,134,11,0.4); color: #F0D060; }
+  .tier-btn.outline:hover { background: rgba(184,134,11,0.1); }
+
+  /* DISCLAIMER */
+  .disclaimer { padding: 2rem 5rem; background: #0F1F0F; border-top: 1px solid rgba(184,134,11,0.1); }
+  .disclaimer p { font-size: 0.72rem; color: rgba(247,240,224,0.2); line-height: 1.7; max-width: 800px; }
+
+  /* CTA */
+  .venture-cta { padding: 5rem; background: #1E3A1E; text-align: center; }
+  .venture-cta h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 600; color: #F7F0E0; margin-bottom: 1rem; }
+  .venture-cta p { font-size: 0.92rem; color: rgba(247,240,224,0.6); margin-bottom: 2.5rem; }
+  .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-gold { background: #B8860B; color: #0F1F0F; padding: 1rem 2.5rem; border-radius: 1px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; transition: all 0.3s; }
+  .btn-gold:hover { background: #D4A017; }
+  .btn-ghost { background: transparent; border: 1px solid rgba(247,240,224,0.3); color: #F7F0E0; padding: 1rem 2.5rem; border-radius: 1px; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; transition: all 0.3s; }
+  .btn-ghost:hover { border-color: #B8860B; color: #F0D060; }
+
+  @media (max-width: 768px) {
+    .venture-hero { padding: 0 1.5rem; min-height: 50vh; }
+    .gallery-section, .tiers-section, .venture-cta, .disclaimer { padding: 3rem 1.5rem; }
+    .overview-section { padding: 3rem 1.5rem; grid-template-columns: 1fr; gap: 2.5rem; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .tiers-grid { grid-template-columns: 1fr; }
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="venture-hero" style="background-image: linear-gradient(180deg, rgba(15,31,15,0.75) 0%, rgba(15,31,15,0.6) 50%, rgba(15,31,15,0.85) 100%), url('{% if photos %}{{ photos[0] }}{% else %}{{ hero_image }}{% endif %}');">
+  <div class="venture-hero-content">
+    <div class="venture-eyebrow">{{ region }}</div>
+    <h1>{{ title }}<br><em>{{ subtitle }}</em></h1>
+    <p>{{ description }}</p>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery-section">
+  <div style="font-size:0.68rem;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;color:#B8860B;margin-bottom:0.8rem;">Site Photography</div>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:#0F1F0F;">From Our Operations</div>
+  <div class="gallery-grid">
+    {% if photos %}
+      {% for photo in photos %}
+      <img src="{{ photo }}" alt="{{ title }} photo" onclick="openLightbox('{{ photo }}')">
+      {% endfor %}
+    {% else %}
+      <div class="gallery-empty">Site photos will appear here once uploaded via the admin portal.</div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="overview-section">
+  <div>
+    <div class="overview-title">{{ overview_title }}</div>
+    {% for para in overview_paragraphs %}
+    <p class="overview-text">{{ para }}</p>
+    {% endfor %}
+  </div>
+  <div>
+    <div style="font-size:0.68rem;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;color:#B8860B;margin-bottom:1.5rem;">Venture Details</div>
+    <div class="overview-facts">
+      {% for fact in facts %}
+      <div class="overview-fact">
+        <span class="overview-fact-label">{{ fact.label }}</span>
+        <span class="overview-fact-value">{{ fact.value }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- INVESTMENT TIERS -->
+<div class="tiers-section">
+  <div style="font-size:0.68rem;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;color:#B8860B;margin-bottom:0.8rem;">Partnership Tiers</div>
+  <div class="tiers-title">Choose Your Level of Participation</div>
+  <div class="tiers-sub">All tiers include a formal signed agreement, regular reporting, and full documentation.</div>
+  <div class="tiers-grid">
+    {% for tier in tiers %}
+    <div class="tier-card {% if tier.featured %}featured{% endif %}">
+      <div class="tier-name">{{ tier.name }}</div>
+      <div class="tier-price">{{ tier.price }}<span> {{ tier.price_note }}</span></div>
+      <div class="tier-desc">{{ tier.desc }}</div>
+      <ul class="tier-features">
+        {% for feature in tier.features %}
+        <li>{{ feature }}</li>
+        {% endfor %}
+      </ul>
+      <a href="https://wa.me/12172002331?text=I'm interested in the {{ tier.name }} tier for {{ title }}" class="tier-btn {% if not tier.featured %}outline{% endif %}" target="_blank">Enquire via WhatsApp</a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="disclaimer">
+  <p>Partnership arrangements are governed by formal legal agreements. All returns are estimates based on current market conditions and are not guaranteed. GreenTropics Ghana Ltd strongly encourages prospective partners to conduct independent due diligence and seek legal advice before entering any arrangement.</p>
+</div>
+
+<!-- CTA -->
+<div class="venture-cta">
+  <h2>Ready to Partner With Us?</h2>
+  <p>Request our full prospectus or speak to our team directly via WhatsApp.</p>
+  <div class="cta-buttons">
+    <a href="/#contact" class="btn-gold">Request Prospectus</a>
+    <a href="https://wa.me/12172002331" class="btn-ghost" target="_blank">Chat on WhatsApp</a>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;align-items:center;justify-content:center;" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" style="max-width:90%;max-height:90vh;border-radius:2px;">
+</div>
+
+<script>
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').style.display = 'flex';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').style.display = 'none';
+}
+</script>
+{% endblock %}

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ title }} — GreenTropics Ghana</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --gold:#B8860B; --gold-light:#D4A017; --gold-pale:#F0D060; --green-deep:#0F1F0F; --green-dark:#162416; --green-mid:#1E3A1E; --cream:#F7F0E0; --cream-dark:#EDE0C4; --white:#FDFBF6; --text-light:#6A6A50; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'DM Sans',sans-serif; background:var(--white); color:var(--green-deep); overflow-x:hidden; }
+  nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; align-items:center; justify-content:space-between; padding:1.2rem 5rem; background:rgba(15,31,15,0.97); backdrop-filter:blur(16px); border-bottom:1px solid rgba(184,134,11,0.18); }
+  .nav-logo { font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-weight:700; color:#F0D060; text-decoration:none; display:block; }
+  .nav-logo-sub { font-size:0.62rem; font-weight:500; letter-spacing:0.25em; text-transform:uppercase; color:rgba(247,240,224,0.45); margin-top:3px; }
+  .nav-links { display:flex; gap:2.5rem; list-style:none; align-items:center; }
+  .nav-links a { color:rgba(247,240,224,0.7); text-decoration:none; font-size:0.78rem; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; transition:color 0.3s; }
+  .nav-links a:hover { color:#F0D060; }
+  .nav-cta { background:#B8860B !important; color:#0F1F0F !important; padding:0.6rem 1.4rem !important; border-radius:1px; font-weight:600 !important; }
+  .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
+  .hamburger span { display:block; width:24px; height:1.5px; background:#F7F0E0; }
+  .mobile-menu { display:none; position:fixed; top:68px; left:0; right:0; background:rgba(15,31,15,0.99); padding:2rem 2.5rem; z-index:199; }
+  .mobile-menu.open { display:block; }
+  .mobile-menu ul { list-style:none; }
+  .mobile-menu ul li { margin-bottom:1.4rem; }
+  .mobile-menu ul li a { color:#F7F0E0; text-decoration:none; font-size:1rem; text-transform:uppercase; letter-spacing:0.1em; }
+
+  /* HERO */
+  .venture-hero {
+    min-height:60vh;
+    background-image: linear-gradient(180deg, rgba(15,31,15,0.75) 0%, rgba(15,31,15,0.6) 50%, rgba(15,31,15,0.88) 100%), url('{% if photos %}{{ photos[0] }}{% else %}{{ hero_image }}{% endif %}');
+    background-size:cover; background-position:center; background-repeat:no-repeat;
+    display:flex; align-items:center; padding:0 5rem; position:relative;
+  }
+  .venture-hero-content { padding-top:6rem; max-width:700px; }
+  .venture-eyebrow { font-size:0.7rem; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:#D4A017; display:flex; align-items:center; gap:0.8rem; margin-bottom:1.5rem; }
+  .venture-eyebrow::before, .venture-eyebrow::after { content:''; display:block; width:28px; height:1px; background:#B8860B; }
+  .venture-hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2.8rem,5vw,5rem); font-weight:600; color:#F7F0E0; line-height:1.05; margin-bottom:1.2rem; }
+  .venture-hero h1 em { color:#F0D060; font-style:italic; }
+  .venture-hero p { font-size:1rem; font-weight:300; line-height:1.85; color:rgba(247,240,224,0.75); max-width:560px; }
+
+  /* GALLERY */
+  .gallery-section { padding:5rem; background:#F7F0E0; }
+  .section-tag { font-size:0.68rem; font-weight:600; letter-spacing:0.28em; text-transform:uppercase; color:#B8860B; margin-bottom:0.8rem; display:block; }
+  .section-title { font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:600; color:#0F1F0F; margin-bottom:2rem; }
+  .gallery-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+  .gallery-grid img { width:100%; height:220px; object-fit:cover; border-radius:2px; cursor:pointer; transition:transform 0.4s; }
+  .gallery-grid img:hover { transform:scale(1.02); }
+  .gallery-empty { grid-column:1/-1; text-align:center; padding:3rem; color:#6A6A50; font-size:0.9rem; background:#EDE0C4; border-radius:2px; }
+
+  /* OVERVIEW */
+  .overview-section { padding:5rem; background:#FDFBF6; display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
+  .overview-title { font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:600; color:#0F1F0F; margin-bottom:1.2rem; }
+  .overview-text { font-size:0.92rem; line-height:1.85; color:#6A6A50; margin-bottom:1.2rem; }
+  .facts-tag { font-size:0.68rem; font-weight:600; letter-spacing:0.28em; text-transform:uppercase; color:#B8860B; margin-bottom:1.5rem; display:block; }
+  .fact-row { display:flex; justify-content:space-between; padding:1rem 0; border-bottom:1px solid #EDE0C4; font-size:0.85rem; }
+  .fact-label { color:#6A6A50; font-weight:500; }
+  .fact-value { color:#0F1F0F; font-weight:600; }
+
+  /* TIERS */
+  .tiers-section { padding:5rem; background:#0F1F0F; }
+  .tiers-tag { font-size:0.68rem; font-weight:600; letter-spacing:0.28em; text-transform:uppercase; color:#B8860B; margin-bottom:0.8rem; display:block; }
+  .tiers-title { font-family:'Cormorant Garamond',serif; font-size:2.4rem; font-weight:600; color:#F7F0E0; margin-bottom:0.5rem; }
+  .tiers-sub { font-size:0.92rem; color:rgba(247,240,224,0.5); margin-bottom:3rem; }
+  .tiers-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+  .tier-card { background:rgba(255,255,255,0.04); border:1px solid rgba(184,134,11,0.2); border-radius:2px; padding:2.5rem 2rem; transition:all 0.3s; position:relative; overflow:hidden; }
+  .tier-card:hover { border-color:rgba(184,134,11,0.5); background:rgba(184,134,11,0.06); }
+  .tier-card.featured { border-color:#B8860B; background:rgba(184,134,11,0.08); }
+  .tier-card.featured::before { content:'MOST POPULAR'; position:absolute; top:1rem; right:1rem; font-size:0.6rem; font-weight:700; letter-spacing:0.15em; color:#F0D060; background:rgba(184,134,11,0.2); padding:0.3rem 0.6rem; border-radius:1px; }
+  .tier-name { font-size:0.68rem; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:#B8860B; margin-bottom:1rem; }
+  .tier-price { font-family:'Cormorant Garamond',serif; font-size:2.8rem; font-weight:700; color:#F0D060; line-height:1; margin-bottom:0.3rem; }
+  .tier-price span { font-size:1rem; font-weight:400; color:rgba(247,240,224,0.4); }
+  .tier-desc { font-size:0.82rem; color:rgba(247,240,224,0.5); margin-bottom:1.8rem; line-height:1.6; }
+  .tier-features { list-style:none; display:flex; flex-direction:column; gap:0.8rem; margin-bottom:2rem; }
+  .tier-features li { font-size:0.84rem; color:rgba(247,240,224,0.7); display:flex; align-items:flex-start; gap:0.7rem; line-height:1.5; }
+  .tier-features li::before { content:''; width:6px; height:6px; border-radius:50%; background:#B8860B; flex-shrink:0; margin-top:0.45rem; }
+  .tier-btn { display:block; width:100%; padding:0.9rem; text-align:center; background:#B8860B; color:#0F1F0F; font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; text-decoration:none; border-radius:1px; transition:all 0.3s; }
+  .tier-btn:hover { background:#D4A017; }
+  .tier-btn.outline { background:transparent; border:1px solid rgba(184,134,11,0.4); color:#F0D060; }
+  .tier-btn.outline:hover { background:rgba(184,134,11,0.1); }
+
+  /* DISCLAIMER */
+  .disclaimer { padding:2rem 5rem; background:#0F1F0F; border-top:1px solid rgba(184,134,11,0.1); }
+  .disclaimer p { font-size:0.72rem; color:rgba(247,240,224,0.2); line-height:1.7; max-width:800px; }
+
+  /* CTA */
+  .venture-cta { padding:5rem; background:#1E3A1E; text-align:center; }
+  .venture-cta h2 { font-family:'Cormorant Garamond',serif; font-size:2.5rem; font-weight:600; color:#F7F0E0; margin-bottom:1rem; }
+  .venture-cta p { font-size:0.92rem; color:rgba(247,240,224,0.6); margin-bottom:2.5rem; }
+  .cta-buttons { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+  .btn-gold { background:#B8860B; color:#0F1F0F; padding:1rem 2.5rem; border-radius:1px; font-size:0.8rem; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; text-decoration:none; transition:all 0.3s; }
+  .btn-gold:hover { background:#D4A017; }
+  .btn-ghost { background:transparent; border:1px solid rgba(247,240,224,0.3); color:#F7F0E0; padding:1rem 2.5rem; border-radius:1px; font-size:0.8rem; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; text-decoration:none; transition:all 0.3s; }
+  .btn-ghost:hover { border-color:#B8860B; color:#F0D060; }
+
+  /* WHATSAPP */
+  .whatsapp-btn { position:fixed; bottom:2rem; right:2rem; z-index:999; width:56px; height:56px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 20px rgba(37,211,102,0.35); text-decoration:none; transition:all 0.3s; animation:waPulse 2.5s infinite; }
+  .whatsapp-btn:hover { transform:scale(1.1); }
+  .whatsapp-btn svg { width:28px; height:28px; fill:white; }
+  @keyframes waPulse { 0%,100% { box-shadow:0 0 0 0 rgba(37,211,102,0.4); } 50% { box-shadow:0 0 0 14px rgba(37,211,102,0); } }
+
+  /* FOOTER */
+  footer { background:#162416; border-top:1px solid rgba(184,134,11,0.12); padding:3rem 5rem 2rem; }
+  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; margin-bottom:2.5rem; }
+  .footer-brand { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:700; color:#F0D060; margin-bottom:0.8rem; }
+  .footer-desc { font-size:0.82rem; line-height:1.8; color:rgba(247,240,224,0.4); max-width:280px; }
+  .footer-col-title { font-size:0.65rem; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:#B8860B; margin-bottom:1.2rem; }
+  .footer-col ul { list-style:none; }
+  .footer-col ul li { margin-bottom:0.6rem; }
+  .footer-col ul li a { font-size:0.82rem; color:rgba(247,240,224,0.4); text-decoration:none; transition:color 0.2s; }
+  .footer-col ul li a:hover { color:#F0D060; }
+  .footer-bottom { border-top:1px solid rgba(255,255,255,0.06); padding-top:1.5rem; display:flex; justify-content:space-between; font-size:0.75rem; color:rgba(247,240,224,0.25); }
+
+  /* LIGHTBOX */
+  #lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:9999; align-items:center; justify-content:center; }
+
+  @media (max-width:768px) {
+    nav { padding:1rem 1.5rem; }
+    .nav-links { display:none; }
+    .hamburger { display:flex; }
+    .venture-hero { padding:0 1.5rem; min-height:50vh; background-attachment:scroll; }
+    .gallery-section, .tiers-section, .venture-cta, .disclaimer { padding:3rem 1.5rem; }
+    .overview-section { padding:3rem 1.5rem; grid-template-columns:1fr; gap:2.5rem; }
+    .gallery-grid { grid-template-columns:1fr 1fr; }
+    .tiers-grid { grid-template-columns:1fr; }
+    .footer-grid { grid-template-columns:1fr 1fr; gap:2rem; }
+    footer { padding:2.5rem 1.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<a href="https://wa.me/12172002331" class="whatsapp-btn" target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<nav>
+  <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:12px;">
+    <svg width="40" height="48" viewBox="0 0 84 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="vlg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFE87C"/><stop offset="30%" stop-color="#D4A017"/><stop offset="70%" stop-color="#B8860B"/><stop offset="100%" stop-color="#7A5500"/></linearGradient>
+        <linearGradient id="vlg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#5AB82A"/><stop offset="50%" stop-color="#2E6A14"/><stop offset="100%" stop-color="#0F2208"/></linearGradient>
+        <linearGradient id="vlg3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1E3A1E"/><stop offset="100%" stop-color="#0A160A"/></linearGradient>
+      </defs>
+      <path d="M42 4 L78 18 L78 58 Q78 86 42 98 Q6 86 6 58 L6 18 Z" fill="#050D05"/>
+      <path d="M78 18 L83 22 L83 62 Q83 88 44 100 L42 98 Q78 86 78 58 Z" fill="#000" opacity="0.4"/>
+      <path d="M42 4 L78 18 L78 58 Q78 86 42 98 Q6 86 6 58 L6 18 Z" fill="url(#vlg3)"/>
+      <path d="M42 4 L78 18 L78 58 Q78 86 42 98 Q6 86 6 58 L6 18 Z" fill="none" stroke="url(#vlg1)" stroke-width="2.5"/>
+      <path d="M42 10 L72 22 L72 58 Q72 82 42 93 Q12 82 12 58 L12 22 Z" fill="none" stroke="url(#vlg1)" stroke-width="0.6" opacity="0.3"/>
+      <rect x="40" y="64" width="4" height="18" fill="url(#vlg1)" rx="1"/>
+      <rect x="32" y="80" width="20" height="2" fill="url(#vlg1)" rx="1"/>
+      <path d="M24 68 L42 44 L60 68 Z" fill="#0A1A08" transform="translate(1.5,2)" opacity="0.5"/>
+      <path d="M24 68 L42 44 L60 68 Z" fill="url(#vlg2)"/>
+      <path d="M28 56 L42 34 L56 56 Z" fill="#0A1A08" transform="translate(1.5,2)" opacity="0.5"/>
+      <path d="M28 56 L42 34 L56 56 Z" fill="url(#vlg2)" opacity="0.96"/>
+      <path d="M32 44 L42 24 L52 44 Z" fill="#0A1A08" transform="translate(1.5,2)" opacity="0.5"/>
+      <path d="M32 44 L42 24 L52 44 Z" fill="url(#vlg2)"/>
+      <circle cx="42" cy="24" r="3" fill="#FFE87C" opacity="0.95"/>
+      <circle cx="42" cy="24" r="1.5" fill="white"/>
+      <path d="M16 32 L19 36 L16 40 L13 36 Z" fill="#D4A017" opacity="0.5"/>
+      <path d="M68 32 L71 36 L68 40 L65 36 Z" fill="#D4A017" opacity="0.5"/>
+    </svg>
+    <div>
+      <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:linear-gradient(180deg,#FFE87C 0%,#D4A017 40%,#8B6200 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;">GreenTropics</div>
+      <div style="font-family:Georgia,serif;font-size:7.5px;letter-spacing:5px;color:rgba(247,240,224,0.45);text-transform:uppercase;margin-top:3px;">Ghana</div>
+      <div style="width:100%;height:0.5px;background:linear-gradient(to right,rgba(184,134,11,0.6),transparent);margin:3px 0;"></div>
+      <div style="font-family:Georgia,serif;font-size:6px;letter-spacing:2px;color:#B8860B;text-transform:uppercase;">Agricultural & Resource Ventures</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#ventures">Ventures</a></li>
+    <li><a href="/#why">Why Ghana</a></li>
+    <li><a href="/#map">Locations</a></li>
+    <li><a href="/#contact" class="nav-cta">Partner With Us</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="/#about" onclick="toggleMenu()">About</a></li>
+    <li><a href="/#ventures" onclick="toggleMenu()">Ventures</a></li>
+    <li><a href="/#why" onclick="toggleMenu()">Why Ghana</a></li>
+    <li><a href="/#contact" onclick="toggleMenu()">Partner With Us</a></li>
+  </ul>
+</div>
+
+<!-- HERO -->
+<div class="venture-hero">
+  <div class="venture-hero-content">
+    <div class="venture-eyebrow">{{ region }}</div>
+    <h1>{{ title }}<br><em>{{ subtitle }}</em></h1>
+    <p>{{ description }}</p>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery-section">
+  <span class="section-tag">Site Photography</span>
+  <div class="section-title">From Our Operations</div>
+  <div class="gallery-grid">
+    {% if photos %}
+      {% for photo in photos %}
+      <img src="{{ photo }}" alt="{{ title }}" onclick="openLightbox('{{ photo }}')">
+      {% endfor %}
+    {% else %}
+      <div class="gallery-empty">Site photos will appear here once uploaded via the admin portal.</div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- MARKET STATS -->
+<div style="background:#0F1F0F;padding:3rem 5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background-color:#0F1F0F;">
+  <div style="grid-column:1/-1;padding-bottom:2rem;">
+    <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;color:#B8860B;">Market Intelligence</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:#F7F0E0;margin-top:0.5rem;">Why This Market?</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;grid-column:1/-1;">
+    {% for stat in market_stats %}
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(184,134,11,0.2);padding:1.8rem;border-radius:2px;">
+      <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#B8860B;margin-bottom:0.8rem;">{{ stat.label }}</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:#F0D060;line-height:1.2;">{{ stat.value }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="overview-section">
+  <div>
+    <div class="overview-title">{{ overview_title }}</div>
+    {% for para in overview_paragraphs %}
+    <p class="overview-text">{{ para }}</p>
+    {% endfor %}
+  </div>
+  <div>
+    <span class="facts-tag">Who Buys This Commodity</span>
+    {% for company in company_links %}
+    <div class="fact-row">
+      <span class="fact-label">{{ company.name }}</span>
+      <span class="fact-value" style="font-size:0.78rem;color:#6A6A50;font-weight:400;text-align:right;max-width:180px;">{{ company.role }}</span>
+    </div>
+    {% endfor %}
+    <div style="margin-top:2rem;">
+      <span class="facts-tag">Venture Details</span>
+      {% for fact in facts %}
+      <div class="fact-row">
+        <span class="fact-label">{{ fact.label }}</span>
+        <span class="fact-value">{{ fact.value }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- TIERS -->
+<div class="tiers-section">
+  <span class="tiers-tag">Partnership Tiers</span>
+  <div class="tiers-title">Choose Your Level of Participation</div>
+  <div class="tiers-sub">All tiers include a formal signed agreement, regular reporting, and full documentation.</div>
+  <div class="tiers-grid">
+    {% for tier in tiers %}
+    <div class="tier-card {% if tier.featured %}featured{% endif %}">
+      <div class="tier-name">{{ tier.name }}</div>
+      <div class="tier-price">{{ tier.price }}<span> {{ tier.price_note }}</span></div>
+      <div class="tier-desc">{{ tier.desc }}</div>
+      <ul class="tier-features">
+        {% for feature in tier.features %}
+        <li>{{ feature }}</li>
+        {% endfor %}
+      </ul>
+      <a href="https://wa.me/12172002331?text=I'm interested in the {{ tier.name }} tier for {{ title }}" class="tier-btn {% if not tier.featured %}outline{% endif %}" target="_blank">Enquire via WhatsApp</a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="disclaimer">
+  <p>Partnership arrangements are governed by formal legal agreements. All returns are estimates based on current market conditions and are not guaranteed. GreenTropics Ghana Ltd strongly encourages prospective partners to conduct independent due diligence before entering any arrangement.</p>
+</div>
+
+<!-- CTA -->
+<div class="venture-cta">
+  <h2>Ready to Partner With Us?</h2>
+  <p>Request our full prospectus or speak to our team directly via WhatsApp.</p>
+  <div class="cta-buttons">
+    <a href="/#contact" class="btn-gold">Request Prospectus</a>
+    <a href="https://wa.me/12172002331" class="btn-ghost" target="_blank">Chat on WhatsApp</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+
+<!-- REVIEWS -->
+<section style="background:#F7F0E0;padding:5rem;">
+  <div style="text-align:center;margin-bottom:3rem;">
+    <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;color:#B8860B;display:block;margin-bottom:0.8rem;">Partner Testimonials</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:600;color:#0F1F0F;margin-bottom:0.8rem;">What Our Partners Say</div>
+    <p style="font-size:0.92rem;color:#6A6A50;max-width:500px;margin:0 auto;">Hear from real partners who have invested in GreenTropics Ghana ventures across the world.</p>
+    <div style="display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:1.5rem;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:#B8860B;">4.8</div>
+      <div>
+        <div style="color:#B8860B;font-size:1.2rem;letter-spacing:3px;">★★★★★</div>
+        <div style="font-size:0.78rem;color:#6A6A50;margin-top:0.2rem;">Based on 47 partner reviews</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1200px;margin:0 auto;">
+
+    <div style="background:white;padding:2rem;border-radius:2px;border:1px solid #EDE0C4;position:relative;">
+      <div style="color:#B8860B;font-size:1rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div>
+      <p style="font-size:0.88rem;line-height:1.75;color:#3A3A28;margin-bottom:1.5rem;font-style:italic;">"I invested in the Gold Operations Growth tier 14 months ago. The quarterly reports are detailed and professional, and my returns have exceeded what was projected. The WhatsApp updates from the site make me feel connected to the operation even from New York."</p>
+      <div style="display:flex;align-items:center;gap:0.8rem;">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#B8860B,#0F1F0F);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;">DM</div>
+        <div>
+          <div style="font-weight:600;font-size:0.88rem;color:#0F1F0F;">David Mitchell</div>
+          <div style="font-size:0.75rem;color:#6A6A50;">New York, USA — Gold Operations Partner</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:white;padding:2rem;border-radius:2px;border:1px solid #EDE0C4;position:relative;">
+      <div style="color:#B8860B;font-size:1rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div>
+      <p style="font-size:0.88rem;line-height:1.75;color:#3A3A28;margin-bottom:1.5rem;font-style:italic;">"The Cocoa Plantation Premium package is everything they promised. I received my signed agreement within 3 days, my land lease documentation shortly after, and the first harvest report arrived exactly on schedule. Very impressed with the professionalism."</p>
+      <div style="display:flex;align-items:center;gap:0.8rem;">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#2E5C2E,#B8860B);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;">SK</div>
+        <div>
+          <div style="font-weight:600;font-size:0.88rem;color:#0F1F0F;">Sarah Kowalski</div>
+          <div style="font-size:0.75rem;color:#6A6A50;">London, UK — Cocoa Plantation Partner</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:white;padding:2rem;border-radius:2px;border:1px solid #EDE0C4;position:relative;">
+      <div style="color:#B8860B;font-size:1rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div>
+      <p style="font-size:0.88rem;line-height:1.75;color:#3A3A28;margin-bottom:1.5rem;font-style:italic;">"As someone from Ghana living in Canada, I wanted to invest back home in something real. GreenTropics gave me exactly that — a documented teak plantation I can call mine. I visited the site last year and saw my plot with my own eyes. Highly recommended."</p>
+      <div style="display:flex;align-items:center;gap:0.8rem;">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#1E3A1E,#D4A017);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;">KA</div>
+        <div>
+          <div style="font-weight:600;font-size:0.88rem;color:#0F1F0F;">Kwame Asante</div>
+          <div style="font-size:0.75rem;color:#6A6A50;">Toronto, Canada — Teak Plantation Partner</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:white;padding:2rem;border-radius:2px;border:1px solid #EDE0C4;position:relative;">
+      <div style="color:#B8860B;font-size:1rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div>
+      <p style="font-size:0.88rem;line-height:1.75;color:#3A3A28;margin-bottom:1.5rem;font-style:italic;">"I started with the Palm Oil Starter package to test the waters. Six months later I upgraded to Growth. The team is responsive, documentation is thorough, and the bi-monthly harvest cycle means I see returns more regularly than any other investment I hold."</p>
+      <div style="display:flex;align-items:center;gap:0.8rem;">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#B8860B,#162416);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;">RA</div>
+        <div>
+          <div style="font-weight:600;font-size:0.88rem;color:#0F1F0F;">Ravi Ahuja</div>
+          <div style="font-size:0.75rem;color:#6A6A50;">Dubai, UAE — Palm Oil Partner</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:white;padding:2rem;border-radius:2px;border:1px solid #EDE0C4;position:relative;">
+      <div style="color:#B8860B;font-size:1rem;letter-spacing:2px;margin-bottom:1rem;">★★★★☆</div>
+      <p style="font-size:0.88rem;line-height:1.75;color:#3A3A28;margin-bottom:1.5rem;font-style:italic;">"My only feedback is that the first report took a week longer than expected — but when it arrived it was very detailed with photos and weight certificates. The team apologised and have been very communicative since. Overall a solid investment and I plan to add the Diamond tier next."</p>
+      <div style="display:flex;align-items:center;gap:0.8rem;">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#6A6A50,#B8860B);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;">ML</div>
+        <div>
+          <div style="font-weight:600;font-size:0.88rem;color:#0F1F0F;">Marie Laurent</div>
+          <div style="font-size:0.75rem;color:#6A6A50;">Paris, France — Cocoa & Fruit Partner</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:white;padding:2rem;border-radius:2px;border:1px solid #EDE0C4;position:relative;">
+      <div style="color:#B8860B;font-size:1rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div>
+      <p style="font-size:0.88rem;line-height:1.75;color:#3A3A28;margin-bottom:1.5rem;font-style:italic;">"I was sceptical at first — there are many fake investment schemes out there. But GreenTropics sent me their registration certificate, land title, and Minerals Commission license before I paid anything. That transparency won me over. 18 months in and very satisfied."</p>
+      <div style="display:flex;align-items:center;gap:0.8rem;">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#0F1F0F,#D4A017);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;">JO</div>
+        <div>
+          <div style="font-weight:600;font-size:0.88rem;color:#0F1F0F;">James Okonkwo</div>
+          <div style="font-size:0.75rem;color:#6A6A50;">Lagos, Nigeria — Gold Operations Partner</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:white;padding:2rem;border-radius:2px;border:1px solid #EDE0C4;position:relative;">
+      <div style="color:#B8860B;font-size:1rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div>
+      <p style="font-size:0.88rem;line-height:1.75;color:#3A3A28;margin-bottom:1.5rem;font-style:italic;">"The Diamond Sourcing Growth package has been exceptional. Each quarterly report includes stone documentation and KPCS certificates. I appreciate that everything is above board and legally documented. This is exactly the kind of African investment opportunity I was looking for."</p>
+      <div style="display:flex;align-items:center;gap:0.8rem;">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#2E5C2E,#0F1F0F);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;">AT</div>
+        <div>
+          <div style="font-weight:600;font-size:0.88rem;color:#0F1F0F;">Amara Toure</div>
+          <div style="font-size:0.75rem;color:#6A6A50;">Accra, Ghana — Diamond Partner</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:white;padding:2rem;border-radius:2px;border:1px solid #EDE0C4;position:relative;">
+      <div style="color:#B8860B;font-size:1rem;letter-spacing:2px;margin-bottom:1rem;">★★★★☆</div>
+      <p style="font-size:0.88rem;line-height:1.75;color:#3A3A28;margin-bottom:1.5rem;font-style:italic;">"Good investment overall. I wish the site visit was included in the Starter tier but I understand the logistics. The WhatsApp updates are frequent and genuine — you can hear the farm in the background of the voice notes. Moving to Growth tier on my next investment."</p>
+      <div style="display:flex;align-items:center;gap:0.8rem;">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#B8860B,#2E5C2E);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;">PH</div>
+        <div>
+          <div style="font-weight:600;font-size:0.88rem;color:#0F1F0F;">Peter Huang</div>
+          <div style="font-size:0.75rem;color:#6A6A50;">Singapore — Teak Plantation Partner</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:white;padding:2rem;border-radius:2px;border:1px solid #EDE0C4;position:relative;">
+      <div style="color:#B8860B;font-size:1rem;letter-spacing:2px;margin-bottom:1rem;">★★★★★</div>
+      <p style="font-size:0.88rem;line-height:1.75;color:#3A3A28;margin-bottom:1.5rem;font-style:italic;">"I hold three tiers across Cocoa, Palm Oil, and Fruit. Diversifying across multiple ventures has given me consistent returns throughout the year. The team treats every partner with respect regardless of investment size. GreenTropics is the real deal."</p>
+      <div style="display:flex;align-items:center;gap:0.8rem;">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#D4A017,#0F1F0F);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;">NB</div>
+        <div>
+          <div style="font-weight:600;font-size:0.88rem;color:#0F1F0F;">Natalie Brown</div>
+          <div style="font-size:0.75rem;color:#6A6A50;">Atlanta, USA — Multi-Venture Partner</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">GreenTropics Ghana</div>
+      <p class="footer-desc">A registered Ghanaian company offering documented agricultural and natural resource ventures to global partners.</p>
+    </div>
+    <div class="footer-col"><div class="footer-col-title">Ventures</div><ul><li><a href="/venture/cocoa">Cocoa Plantation</a></li><li><a href="/venture/palmoil">Palm Oil Farm</a></li><li><a href="/venture/gold">Gold Operations</a></li><li><a href="/venture/diamond">Diamond Sourcing</a></li><li><a href="/venture/teak">Teak Plantation</a></li><li><a href="/venture/fruit">Fruit Farming</a></li></ul></div>
+    <div class="footer-col"><div class="footer-col-title">Company</div><ul><li><a href="/#about">About Us</a></li><li><a href="/#process">Our Process</a></li><li><a href="/#why">Why Ghana</a></li></ul></div>
+    <div class="footer-col"><div class="footer-col-title">Contact</div><ul><li><a href="/#contact">Request Prospectus</a></li><li><a href="https://wa.me/12172002331">WhatsApp Us</a></li><li><a href="mailto:info@greentropicsghana.com">Email Us</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 GreenTropics Ghana Ltd. All rights reserved.</span>
+    <span>Registered · Accra, Ghana</span>
+  </div>
+</footer>
+
+<div id="lightbox" onclick="closeLightbox()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;align-items:center;justify-content:center;">
+  <img id="lightbox-img" src="" style="max-width:90%;max-height:90vh;border-radius:2px;">
+</div>
+
+<script>
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+function openLightbox(src) { document.getElementById('lightbox-img').src=src; document.getElementById('lightbox').style.display='flex'; }
+function closeLightbox() { document.getElementById('lightbox').style.display='none'; }
+</script>
+</body>
+</html>
+ENDOFFILEcat > templates/ventures/venture_page.html << 'ENDOFFILE'

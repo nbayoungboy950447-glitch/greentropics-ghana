@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — GreenTropics Ghana</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin:0;padding:0;box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; background:#0F1F0F; min-height:100vh; display:flex; align-items:center; justify-content:center; }
+  .login-box { background:#162416; border:1px solid rgba(184,134,11,0.2); border-radius:2px; padding:3rem; width:100%; max-width:420px; }
+  .login-logo { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:700; color:#F0D060; margin-bottom:0.4rem; }
+  .login-sub { font-size:0.72rem; color:rgba(247,240,224,0.35); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:2.5rem; }
+  label { display:block; font-size:0.7rem; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:#B8860B; margin-bottom:0.5rem; }
+  input[type=password] { width:100%; padding:0.85rem 1rem; background:rgba(255,255,255,0.05); border:1px solid rgba(184,134,11,0.2); border-radius:1px; color:#F7F0E0; font-family:'DM Sans',sans-serif; font-size:0.9rem; outline:none; margin-bottom:1.5rem; }
+  input[type=password]:focus { border-color:#B8860B; }
+  button { width:100%; padding:0.9rem; background:#B8860B; color:#0F1F0F; border:none; border-radius:1px; font-family:'DM Sans',sans-serif; font-size:0.8rem; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer; transition:background 0.3s; }
+  button:hover { background:#D4A017; }
+  .error { background:rgba(220,50,50,0.1); border:1px solid rgba(220,50,50,0.3); color:#ff8080; padding:0.8rem 1rem; border-radius:1px; font-size:0.82rem; margin-bottom:1.5rem; }
+</style>
+</head>
+<body>
+<div class="login-box">
+  <div class="login-logo">GreenTropics Ghana</div>
+  <div class="login-sub">Admin Portal</div>
+  {% if error %}<div class="error">{{ error }}</div>{% endif %}
+  <form method="POST">
+    <label>Password</label>
+    <input type="password" name="password" placeholder="Enter admin password" autofocus>
+    <button type="submit">Access Admin Portal</button>
+  </form>
+</div>
+</body>
+</html>

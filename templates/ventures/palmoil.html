@@ -1,0 +1,65 @@
+{% extends "ventures/venture_base.html" %}
+{% set hero_image = "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=1600&q=90" %}
+{% set region = "Western & Central Region" %}
+{% set title = "Palm Oil" %}
+{% set subtitle = "Farm Partnership" %}
+{% set description = "Palm oil is one of Africa's most traded commodities." %}
+{% set overview_title = "About Our Palm Oil Operations" %}
+{% set overview_paragraphs = [
+  "Ghana's Western and Central regions provide ideal conditions for oil palm cultivation — deep soils, high rainfall, and proximity to processing mills. Our farms produce Fresh Fruit Bunches (FFB) that are processed into crude palm oil for both local and export markets.",
+  "All production is documented with weight certificates and buyer receipts. Partners receive copies of all transaction records and regular farm updates including photo and video documentation."
+] %}
+{% set facts = [
+  {"label": "Location", "value": "Western & Central Region"},
+  {"label": "Crop Type", "value": "Elaeis Guineensis"},
+  {"label": "Production", "value": "Fresh Fruit Bunches (FFB)"},
+  {"label": "Harvest Cycle", "value": "Every 2 months"},
+  {"label": "Land Status", "value": "Leased & Documented"},
+  {"label": "Market", "value": "Local & International"}
+] %}
+{% set tiers = [
+  {
+    "name": "Starter",
+    "price": "$2,500",
+    "price_note": "entry",
+    "desc": "Own a share of our palm oil farm with full documentation and regular harvest updates.",
+    "featured": false,
+    "features": [
+      "Signed partnership agreement",
+      "Bi-monthly harvest reports",
+      "Farm photo updates",
+      "WhatsApp farm updates",
+      "2 acre share allocation"
+    ]
+  },
+  {
+    "name": "Growth",
+    "price": "$6,000",
+    "price_note": "entry",
+    "desc": "A larger stake with dedicated reporting, site visit eligibility, and priority contact.",
+    "featured": true,
+    "features": [
+      "Everything in Starter",
+      "5 acre share allocation",
+      "Quarterly video documentation",
+      "Site visit eligibility",
+      "Dedicated WhatsApp contact",
+      "Weight certificate copies"
+    ]
+  },
+  {
+    "name": "Premium",
+    "price": "$18,000",
+    "price_note": "entry",
+    "desc": "Full farm block with maximum documentation, legal review, and annual site visit.",
+    "featured": false,
+    "features": [
+      "Everything in Growth",
+      "15 acre block allocation",
+      "Annual site visit arranged",
+      "Legal agreement with lawyer review",
+      "Buyer receipt documentation",
+      "Named on lease records"
+    ]
+  }
+] %}
