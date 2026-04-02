@@ -389,29 +389,5 @@ def delete_pdf():
     if os.path.exists(path) and filename.endswith('.pdf'):
         os.remove(path)
     return redirect('/admin')
-
 if __name__ == '__main__':
     app.run(debug=True)
-
-@app.route('/admin/upload-pdf', methods=['POST'])
-def upload_pdf():
-    if not session.get('admin'):
-        return redirect('/admin')
-    import os
-    os.makedirs('static/downloads', exist_ok=True)
-    file = request.files.get('pdf')
-    if file and file.filename.endswith('.pdf'):
-        from werkzeug.utils import secure_filename
-        filename = secure_filename(file.filename)
-        file.save(f'static/downloads/{filename}')
-    return redirect('/admin')
-
-@app.route('/admin/delete-pdf', methods=['POST'])
-def delete_pdf():
-    if not session.get('admin'):
-        return redirect('/admin')
-    filename = request.form.get('filename', '')
-    path = f'static/downloads/{filename}'
-    if os.path.exists(path) and filename.endswith('.pdf'):
-        os.remove(path)
-    return redirect('/admin')
