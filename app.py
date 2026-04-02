@@ -1,4 +1,7 @@
 from flask import Flask, render_template, request, redirect, session
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 import os
 from werkzeug.utils import secure_filename
 
@@ -274,6 +277,12 @@ def get_photos(venture):
         return []
     return [f'/static/uploads/{venture}/{f}' for f in os.listdir(folder) if allowed(f)]
 
+def get_pdfs():
+    folder = 'static/downloads'
+    if not os.path.exists(folder):
+        return []
+    return [f for f in os.listdir(folder) if f.endswith('.pdf')]
+
 def get_card_photo(venture):
     photos = get_photos(venture)
     if photos:
@@ -289,7 +298,9 @@ def home():
     about_img = about_photos[0] if about_photos else 'https://images.unsplash.com/photo-1586771107445-d3ca888129ff?w=900&q=85'
     hero_photos = get_photos('hero')
     hero_img = hero_photos[0] if hero_photos else None
-    return render_template('index.html', photos=photos, card_photos=card_photos, about_img=about_img, hero_img=hero_img)
+    cert_photos = get_photos('certificates')
+    downloadable_pdfs = get_pdfs()
+    return render_template('index.html', photos=photos, card_photos=card_photos, about_img=about_img, hero_img=hero_img, cert_photos=cert_photos, downloadable_pdfs=downloadable_pdfs)
 
 @app.route('/venture/<name>')
 def venture(name):
@@ -324,14 +335,15 @@ def admin():
     photos = {v: get_photos(v) for v in VENTURES}
     about_photos = get_photos('about')
     hero_photos = get_photos('hero')
-    return render_template('admin/dashboard.html', ventures=VENTURES, photos=photos, about_photos=about_photos, hero_photos=hero_photos)
+    downloadable_pdfs = get_pdfs()
+    return render_template('admin/dashboard.html', ventures=VENTURES, photos=photos, about_photos=about_photos, hero_photos=hero_photos, downloadable_pdfs=downloadable_pdfs)
 
 @app.route('/admin/upload', methods=['POST'])
 def upload():
     if not session.get('admin'):
         return redirect('/admin')
     venture = request.form.get('venture')
-    all_sections = VENTURES + ['about', 'hero']
+    all_sections = VENTURES + ['about', 'hero', 'certificates']
     if venture not in all_sections:
         return redirect('/admin')
     files = request.files.getlist('photos')
@@ -355,5 +367,51 @@ def logout():
     session.clear()
     return redirect('/')
 
+@app.route('/admin/upload-pdf', methods=['POST'])
+def upload_pdf():
+    if not session.get('admin'):
+        return redirect('/admin')
+    import os
+    os.makedirs('static/downloads', exist_ok=True)
+    file = request.files.get('pdf')
+    if file and file.filename.endswith('.pdf'):
+        from werkzeug.utils import secure_filename
+        filename = secure_filename(file.filename)
+        file.save('static/downloads/' + filename)
+    return redirect('/admin')
+
+@app.route('/admin/delete-pdf', methods=['POST'])
+def delete_pdf():
+    if not session.get('admin'):
+        return redirect('/admin')
+    filename = request.form.get('filename', '')
+    path = 'static/downloads/' + filename
+    if os.path.exists(path) and filename.endswith('.pdf'):
+        os.remove(path)
+    return redirect('/admin')
+
 if __name__ == '__main__':
     app.run(debug=True)
+
+@app.route('/admin/upload-pdf', methods=['POST'])
+def upload_pdf():
+    if not session.get('admin'):
+        return redirect('/admin')
+    import os
+    os.makedirs('static/downloads', exist_ok=True)
+    file = request.files.get('pdf')
+    if file and file.filename.endswith('.pdf'):
+        from werkzeug.utils import secure_filename
+        filename = secure_filename(file.filename)
+        file.save(f'static/downloads/{filename}')
+    return redirect('/admin')
+
+@app.route('/admin/delete-pdf', methods=['POST'])
+def delete_pdf():
+    if not session.get('admin'):
+        return redirect('/admin')
+    filename = request.form.get('filename', '')
+    path = f'static/downloads/{filename}'
+    if os.path.exists(path) and filename.endswith('.pdf'):
+        os.remove(path)
+    return redirect('/admin')

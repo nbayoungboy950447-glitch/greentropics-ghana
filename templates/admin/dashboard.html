@@ -136,6 +136,102 @@
     </div>
   </div>
 
+  
+  <div class="venture-panel">
+    <div class="venture-panel-header">
+      <div class="venture-panel-name">📄 Downloadable PDFs — Prospectus & Documents</div>
+      <a href="/#downloads" target="_blank" class="venture-panel-link">View on Site</a>
+    </div>
+    <div class="venture-panel-body">
+      <p style="font-size:0.82rem;color:rgba(247,240,224,0.5);margin-bottom:1.5rem;">
+        Upload PDFs here — they will appear on the website as downloadable files for clients.
+        Upload your company prospectus, agent recognition documents, or any PDF you want clients to access.
+      </p>
+      <form method="POST" action="/admin/upload-pdf" enctype="multipart/form-data">
+        <div class="upload-area">
+          <label class="upload-label" for="file-pdf">
+            <div class="upload-text">Click to select PDF files from your computer</div>
+            <div class="upload-btn">Choose PDF</div>
+          </label>
+          <input type="file" id="file-pdf" name="pdf" accept=".pdf" onchange="document.getElementById('pdf-name').textContent = this.files[0] ? this.files[0].name + ' selected' : ''">
+          <div class="selected-count" id="pdf-name"></div>
+        </div>
+        <button type="submit" class="submit-btn">Upload PDF</button>
+      </form>
+
+      {% if downloadable_pdfs is defined and downloadable_pdfs %}
+      <div style="margin-top:1.5rem;">
+        <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#B8860B;margin-bottom:1rem;">Uploaded PDFs</div>
+        {% for pdf in downloadable_pdfs %}
+        <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.04);border:1px solid rgba(184,134,11,0.2);padding:0.8rem 1rem;border-radius:2px;margin-bottom:0.5rem;">
+          <div style="display:flex;align-items:center;gap:0.8rem;">
+            <span style="font-size:1.2rem;">📄</span>
+            <div>
+              <div style="font-size:0.88rem;color:#F0D060;font-weight:600;">{{ pdf }}</div>
+              <a href="/static/downloads/{{ pdf }}" target="_blank" style="font-size:0.72rem;color:#B8860B;text-decoration:none;">Preview →</a>
+            </div>
+          </div>
+          <form method="POST" action="/admin/delete-pdf" style="display:inline">
+            <input type="hidden" name="filename" value="{{ pdf }}">
+            <button type="submit" onclick="return confirm('Delete this PDF?')" style="background:rgba(220,50,50,0.2);border:1px solid rgba(220,50,50,0.4);color:#ff8080;padding:0.3rem 0.8rem;border-radius:1px;font-size:0.72rem;cursor:pointer;">Delete</button>
+          </form>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="no-photos" style="margin-top:1rem;">No PDFs uploaded yet. Upload your company prospectus or recognition documents above.</div>
+      {% endif %}
+    </div>
+  </div>
+
+  
+  <div class="venture-panel">
+    <div class="venture-panel-header">
+      <div class="venture-panel-name">📄 Downloadable PDFs — Prospectus & Documents</div>
+      <a href="/#downloads" target="_blank" class="venture-panel-link">View on Site</a>
+    </div>
+    <div class="venture-panel-body">
+      <p style="font-size:0.82rem;color:rgba(247,240,224,0.5);margin-bottom:1.5rem;">
+        Upload PDFs here — they will appear on the website as downloadable files for clients.
+        Upload your company prospectus, agent recognition documents, or any PDF you want clients to access.
+      </p>
+      <form method="POST" action="/admin/upload-pdf" enctype="multipart/form-data">
+        <div class="upload-area">
+          <label class="upload-label" for="file-pdf">
+            <div class="upload-text">Click to select PDF files from your computer</div>
+            <div class="upload-btn">Choose PDF</div>
+          </label>
+          <input type="file" id="file-pdf" name="pdf" accept=".pdf" onchange="document.getElementById('pdf-name').textContent = this.files[0] ? this.files[0].name + ' selected' : ''">
+          <div class="selected-count" id="pdf-name"></div>
+        </div>
+        <button type="submit" class="submit-btn">Upload PDF</button>
+      </form>
+
+      {% if downloadable_pdfs is defined and downloadable_pdfs %}
+      <div style="margin-top:1.5rem;">
+        <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#B8860B;margin-bottom:1rem;">Uploaded PDFs</div>
+        {% for pdf in downloadable_pdfs %}
+        <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.04);border:1px solid rgba(184,134,11,0.2);padding:0.8rem 1rem;border-radius:2px;margin-bottom:0.5rem;">
+          <div style="display:flex;align-items:center;gap:0.8rem;">
+            <span style="font-size:1.2rem;">📄</span>
+            <div>
+              <div style="font-size:0.88rem;color:#F0D060;font-weight:600;">{{ pdf }}</div>
+              <a href="/static/downloads/{{ pdf }}" target="_blank" style="font-size:0.72rem;color:#B8860B;text-decoration:none;">Preview →</a>
+            </div>
+          </div>
+          <form method="POST" action="/admin/delete-pdf" style="display:inline">
+            <input type="hidden" name="filename" value="{{ pdf }}">
+            <button type="submit" onclick="return confirm('Delete this PDF?')" style="background:rgba(220,50,50,0.2);border:1px solid rgba(220,50,50,0.4);color:#ff8080;padding:0.3rem 0.8rem;border-radius:1px;font-size:0.72rem;cursor:pointer;">Delete</button>
+          </form>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="no-photos" style="margin-top:1rem;">No PDFs uploaded yet. Upload your company prospectus or recognition documents above.</div>
+      {% endif %}
+    </div>
+  </div>
+
   <div style="margin:1rem 0;padding:1rem 0;border-bottom:1px solid rgba(184,134,11,0.15);"><div style="font-family:Cormorant Garamond,serif;font-size:1.1rem;color:#F0D060;">Venture Sections</div></div>
   {% for venture in ventures %}
   <div class="venture-panel">
